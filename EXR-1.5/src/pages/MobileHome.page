@@ -1,0 +1,1276 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false" cache="true" controller="VF_MobileHomeController">
+<html> 
+<head> 
+<title>Excelsior Realty</title>
+
+<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" /> 
+<apex:stylesheet value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery.mobile-1.3.0.min.css')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery-1.9.1.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery.mobile-1.3.0.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'ForceTk.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.Jquery_Validation)}"/>
+<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwS3C9al857ythb0ofyTmbepu4J0t5B14&sensor=false" />
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.flipbox.min.js"></script>
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en-GB.utf8.js"></script>
+<apex:includeScript value="{!URLFOR($Resource.Exr_Main_JS)}"/>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<style>
+
+label.error { 
+	float: left; 
+	color: red; 
+	padding-top: .5em; 
+	vertical-align: top; 
+	font-weight:bold
+}
+
+p, li
+{
+	font-size:80%;
+}
+
+p.note
+{
+	font-size:70%;
+	color: red; 
+}
+
+h2 
+{
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+p 
+{
+    font-size: 12px;
+    margin: 0;
+}
+
+#au_content img {
+    float: left;
+    margin: 0 7px 5px 0;
+    height: 77px;
+    width: 116px;
+}
+.comm-details {
+    margin: 0 0 0 123px;
+}
+
+#lpd_property_detail,  #lpd_property_detail{
+    display: block;
+    overflow: hidden;
+}
+
+#lpd_property_detail img,  #spd_property_detail img{
+    float: left;
+    margin: 0 7px 5px 0;
+    height: 77px;
+    width: 116px;
+}
+
+.comm-details h2 {
+    font-size: 16px;
+    margin: 0;
+}
+.comm-details p {
+    font-size: 12px;
+    margin: 0;
+}
+
+</style> 
+</head>
+
+<body>
+    			<!-- Home page  -->
+    <div data-role="page" data-theme="c" id="mainpage">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Excelsior Realty</h1>
+		</div>
+		
+        <div data-role="content">
+            <a href="#propertieshome" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Properties</a>
+            <a href="#serviceshome" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Services</a>
+            <a href="#contact_us" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Contact Us</a>
+            <a href="#aboutus" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >About Us</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   				<!-- service home page  -->
+   <div data-role="page" data-theme="c" id="serviceshome">
+            
+   <div data-role="header">
+   				 <a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    			<h1>Services</h1>
+		</div>
+		
+        <div data-role="content">
+            <a href="#tenant_application1" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Tenant Application</a>
+            <a href="#repair" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Repair Request</a>
+            <a href="#notice_to_vacate" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Notice to Vacate</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+              <!-- request home page  -->
+   		<div data-role="page" data-theme="c" id="repair">
+            
+        <div data-role="header">
+   			<a href="#serviceshome" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Repair Request</h1>
+		</div>
+		
+        	<div data-role="content">
+           	<form id="repair_form"  method="post" enctype='multipart/form-data' data-ajax="false" action='javascript:repairFormSubmit();'> 
+           		    <fieldset>
+	           		    <label for="repair_subject">Property Address:</label>
+						<input type="text" name="tenant_subject" id="repair_subject" class='required' placeholder = "Property Address:" maxLength='100'/>
+					</fieldset>
+					
+					<fieldset>
+		           		<label for="repair_email">Email Address:</label>
+						<input type="email" name="repair_email" id="repair_email" class ='required email' title='Please enter a valid email address' value="" maxLength='50' placeholder = "Email Address:"/>
+					</fieldset>
+					
+					<fieldset>
+						<label for="repair_best_contact_number" >Best Contact Number:</label>
+						<input type="tel" name="repair_best_contact_number" id="repair_best_contact_number" maxLength='25' class ='required digits' title='Please enter a valid phone number' value="" placeholder = "Best Contact Number:"/>
+					</fieldset>
+					
+					<fieldset>
+						<label for="repair_details">Problem Details:</label>
+						<textarea row = '8' name='repair_details' id='repair_details' class ='required' maxLength='10000' placeholder='Problem Details:'></textarea>
+					</fieldset>
+		
+					<fieldset>
+						<label for="repair_photo" >Take a Photo for Owner Approval:</label>
+						<input type="file" name="repair_photo" class='required'  id="repair_photo" accept="image/*" multiple="multiple"/>
+				   </fieldset>
+	
+				  <input type="submit" value="Submit" name="repair_submit" id='repair_submit' /> 
+			 </form>	   
+           
+	        </div>
+	        <div data-role="footer">
+			</div> 
+	    </div>
+	    
+	    <div data-role="page" data-theme="c" id="tenant_application1" >
+            
+        <div data-role="header">
+   			<a href="#serviceshome" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Excelsior Realty Tenancy Application Form</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form1"   method="post" data-ajax="false" action='javascript:applicationForm1Submit();' >
+                <fieldset>
+	           		<label for="application_property">Property Address:</label>
+					<input type="text" name="application_property" id="application_property" value=""
+					 placeholder = "What is the address of the property you would like to rent" maxlength ='100' class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_lease_term" class="select">Lease Term:</label>
+					<select name="application_lease_term" id="application_lease_term">
+					    <option value="Six Months">Six Months</option>
+					    <option value="Seven Months">Seven Months</option>
+					    <option value="Eight Months">Eight Months</option>
+					    <option value="Nine Months">Nine Months</option>
+					    <option value="Ten Months">Ten Months</option>
+					    <option value="Eleven Months">Eleven Months</option>
+					    <option value="Twelve Months">Twelve Months</option>
+					</select>
+				</fieldset>
+				
+				 <fieldset>
+					<label for="application_start_date">Lease commencement Date:</label>
+					<input type="date" name="application_start_date" id="application_start_date" value="" data-role="datebox" placeholder = "Lease commencement Date" data-options='{"mode": "calbox"}'  class ='required' autocomplete="off"/>
+				</fieldset>	
+				
+				 <fieldset>
+					<label for="application_number_of_occupier">How many people will normally occupy the property:</label>
+					<select name="application_number_of_adult" id="application_number_of_adult">
+						<option value="0">Number of Adults</option>
+					    <option value="1">1 Adults</option>
+					    <option value="2">2 Adults</option>
+					    <option value="3">3 Adults</option>
+					    <option value="4">4 Adults</option>
+					    <option value="5">5 Adults</option>
+					    <option value="6">6 Adults</option>
+					    <option value="7">7 Adults</option>
+					    <option value="8">8 Adults</option>
+					    <option value="9">9 Adults</option>
+					    <option value="10">10 Adults</option>
+					</select>
+					
+					<select name="application_number_of_children" id="application_number_of_children">
+					    <option value="0">Number of Children</option>
+					    <option value="1">1 Children</option>
+					    <option value="2">2 Children</option>
+					    <option value="3">3 Children</option>
+					    <option value="4">4 Children</option>
+					    <option value="5">5 Children</option>
+					    <option value="6">6 Children</option>
+					    <option value="7">7 Children</option>
+					    <option value="8">8 Children</option>
+					    <option value="9">9 Children</option>
+					    <option value="10">10 Children</option>
+					</select>
+				</fieldset>	
+							
+				<input type="submit" value="Sections 2: Personal Details" name="application_step1_submit"  id='application_step1_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+
+
+    <div data-role="page" data-theme="c" id="tenant_application2" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application1" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>2. Personal Details</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form2"   method="post" data-ajax="false" action='javascript:applicationForm2Submit();' >
+                <fieldset>
+	           		<label for="application_title">Title:</label>
+					<input type="text" name="application_title" id="application_title" maxlength ='10' value="" placeholder = "Title" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_first_name">First Name:</label>
+					<input type="text" name="application_first_name"  id="application_first_name" class='required'  maxlength ='50' placeholder = "First Name" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_last_name">Last Name:</label>
+					<input type="text" name="application_last_name" id="application_last_name" class='required'  maxlength ='50' placeholder = "Last Name" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_dob">Date of Birth:</label>
+					<input type="date"  name="application_dob" id="application_dob" class='required' data-role="datebox" placeholder = "Date of Birth" data-options='{"mode": "flipbox"}' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_licence">Drivers Licence Number:</label>
+					<input type="text" name="application_licence" id="application_licence" maxlength ='25' placeholder = "Drivers Licence Number" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_issue_state" class="select">State of Issue:</label>
+					<select name="application_issue_state" id="application_issue_state">
+						<option value="NSW">NSW</option>
+					    <option value="ACT">ACT</option>
+					    <option value="NT">NT</option>
+					    <option value="QLD">QLD</option>
+					    <option value="SA">SA</option>
+					    <option value="TAS">TAS</option>
+					    <option value="VIC">VIC</option>
+					    <option value="WA">WA</option>
+					</select>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_alternate_Id">Alternate Id (eg passport):</label>
+					<input type="text" name="pplication_alternate_Id" id="application_alternate_Id"  maxlength ='25' placeholder = "Alternate Id (eg passport)" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_home_ph">Home Phone:</label>
+					<input type="tel" name="application_home_ph" id="application_home_ph"  placeholder = "Home Phone" class='digits' 
+					   title='Please enter a valid phone number' maxlength ='25' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_mobile_ph">Mobile Phone:</label>
+					<input type="tel"  name="application_mobile_ph" id="application_mobile_ph"  placeholder = "Mobile Phone" 
+					class = "required digits" title='Please enter a valid phone number' maxlength ='25' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_email">Email:</label>
+					<input type="email" name='pplication_email' id="application_email" class ='required email' 
+					title='Please enter a valid email address'  maxlength ='50' placeholder = "Email" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_occupation">Occupation:</label>
+					<input type="text" name="application_occupation"  id="application_occupation" class ='required'
+					  maxlength ='50' placeholder = "Occupation" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_work_ph">Work No:</label>
+					<input type="tel" name="application_work_ph" id="application_work_ph"  placeholder = "Work Phone" 
+					 maxlength ='25' class='digits' title='Please enter a valid phone number' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_current_address">Current Address:</label>
+					<input type="text" name="application_current_address" id="application_current_address"  
+						maxlength ='100' placeholder = "Current Address" class = "required" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_current_suburb">Suburb:</label>
+					<input type="text" name="application_current_suburb" id="application_current_suburb"  placeholder = "Suburb" 
+					  maxlength ='50' class = "required" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="application_current_postcode">Postcode:</label>
+					<input type="text" name="application_current_postcode"  id="application_current_postcode"  
+					   maxlength ='4' placeholder = "Postcode" class = "required" autocomplete="off"/>
+				</fieldset>
+				
+				<input type="submit" value="Section 3: Emergency Contact" id='application_step2_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>  
+    
+    <div data-role="page" data-theme="c" id="tenant_application3" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application2" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>3. Emergency Contact:</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form3"   method="post" data-ajax="false" action='javascript:applicationForm3Submit();' >
+                <fieldset>
+	           		<label for="application_emergency_frist_name">First Name:</label>
+					<input type="text" name="application_emergency_frist_name" id="application_emergency_frist_name" value="" 
+					  maxlength ='50' placeholder = "First Name" class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_emergency_surname">Surname:</label>
+					<input type="text" name="application_emergency_surname" id="application_emergency_surname" value="" 
+					 maxlength ='50' placeholder = "Surname" class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_relationship">Relationship:</label>
+					<input type="text" name="application_relationship" id="application_relationship"
+					 maxlength ='50'  value="" placeholder = "Relationship" class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_emergency_phone">Phone No:</label>
+					<input type="tel" name="application_emergency_phone" id="application_emergency_phone" value="" 
+					placeholder = "Phone No" maxlength ='25' title="please enter a valid phone number" class ='required digits' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_emergency_address">Address:</label>
+					<input type="text" name="application_emergency_address" id="application_emergency_address" value=""
+					 maxlength ='100' placeholder = "Address"  autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset> 
+	           		<label for="application_emergency_suburb">Suburb:</label>
+					<input type="text" name="application_emergency_suburb" id="application_emergency_suburb" value=""
+					maxlength ='50' placeholder = "Suburb"  autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_emergency_postcode">Postcode:</label>
+					<input type="text" name="application_emergency_postcode" id="application_emergency_postcode" value="" 
+					 placeholder = "Postcode" maxlength="4" autocomplete="off"/>
+				</fieldset>
+						
+				<input type="submit" value="Section 4: Payment Details" name="application_step3_submit"  id='application_step3_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div> 
+    
+    <div data-role="page" data-theme="c" id="tenant_application4" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application3" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>4. Payment Details</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form4"   method="post" data-ajax="false" action='javascript:applicationForm4Submit();' >
+                <fieldset>
+	           		<label for="application_property_rentals">Property Rentals:</label>
+					<input type="number" name="application_property_rentals" id="application_property_rentals" value="" 
+					    placeholder = "Property Rentals" class='number' maxlength='16' title='Please enter a valid rental amount' autocomplete="off"/>
+				</fieldset>
+				
+				 <fieldset>
+					<select name="application_rental_term" id="application_rental_term">
+					    <option value="Per Week">Per Week</option>
+					    <option value="Per Month">Per Month</option>
+					</select>
+				</fieldset>
+					
+				<fieldset>
+	           		<label for="application_first_payment">First Payment of rent in advance:</label>
+					<input type="number" name="application_first_payment" id="application_first_payment" value="" maxlength='16'
+					    placeholder = "First payment of rent in advance" class='number' title='Please enter a valid  amount' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_rental_bond">Rental Bond(4 weeks Rent):</label>
+					<input type="number" name="application_rental_bond" id="application_rental_bond" value="" maxlength='16'
+					    placeholder = "Rental Bond(4 weeks Rent)" class='number' title='Please enter a valid  amount' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_sub_total">Sub Total:</label>
+					<input type="number" name="application_sub_total" id="application_sub_total" value="" maxlength='16'
+					    placeholder = "Sub Total" class='number' title='Please enter a valid  amount' autocomplete="off"/>
+				</fieldset>
+				
+				<input type="submit" value="Step 5 - 6: Utility Connections & Declaration" name="application_step4_submit"  id='application_step4_submit'/>
+			</form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div> 
+    
+     <div data-role="page" data-theme="c" id="tenant_application5" > 
+        <div data-role="header">
+   			<a href="#tenant_application4" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>5 - 6. Untitility Connections &amp; Declaration</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form5"   method="post" data-ajax="false" action='javascript:applicationForm5Submit();' >
+                <h5>Section 5: Utility Connections</h5>
+                <p>
+                  If you would like assistance, (at no additional charge) with the 
+                  connection of telephone, electricity and gas (if applicable) to
+                  your new home then tick the box below. Connectnow will then contact
+                  you and explain the details of the services available.
+				</p>
+
+				<fieldset>
+	           		<label for="application_utitility_connection">
+	           		Please conact me regarding Connectnow of my utilities
+					<input type="checkbox" name="application_utitility_connection" id="application_utitility_connection"/>
+					</label>
+				</fieldset>
+				 <hr></hr>
+				 <h5>Section 6:Declaration</h5>
+				<p>
+				I hereby offer to rent the property from the owner under a lease to be 
+				prepared by the Agent. I acknowledge that I will be required to pay the 
+				amounts as specified in Section 4.
+				</p>
+				
+				<p>
+				I acknowledge that this application is subject to the approval of the 
+				owner/landlord. I declare that all information contained in this 
+				application (including the reverse side) is true and correct and
+				 given of my own free will. I declare that I have inspected the 
+				 premises and am not bankrupt.
+				</p>
+				
+				<p>
+				I authorize the Agent to obtain personal information from:
+				</p>
+				<ol type='a'>
+					<li>
+					The owner or the Agent of my current or previous residence;
+					</li>
+					<li>
+					My personal referees and employer/s;
+					</li>
+					<li>
+				    Any record, listing or database of defaults by tenants;
+				    </li>
+				</ol>
+				<p>
+				If I default under a rental agreement, I agree that the Agent may 
+				disclose details of any such default to a tenancy default database, 
+				and to agents/landlords of properties I may apply for in the future.
+				</p>
+				
+				 <p>
+				 I am aware that the Agent will use and disclose my personal information in order to
+				 <ol type='a'>
+					 <li>
+					  communicate with the owner and select a tenant
+					 </li>
+					 <li>
+					 prepare lease/tenancy documents
+					 </li>
+					 <li>
+					allow tradespeople or equivalent organisations to contact me
+					 </li>
+					 <li>
+					lodge/claim/transfer to/from the Residential Tenancies Bond Authority
+					 </li>
+					 <li>
+					 refer  to Tribunals/Courts &amp; Statutory Authorities (where applicable)
+					 </li>
+					 <li>
+					 refer  to collection agents/lawyers (where applicable)
+					 </li>	 
+				 </ol>
+			  </p>
+			  
+			  <p>
+			  	I am aware that if information is not provided or I do not consent to the 
+			  	uses to which personal information is put, the Agent cannot provide me 
+			  	with the lease/tenancy of the premises.  I am aware that I may access 
+			  	personal information on the contact details above.
+			  </p>
+			  
+			  <p>
+			  	If Section 5 is completed,I consent to connectnow Pty Ltd A.C.N. 79 097 398 662 arranging for the 
+			  	connection of the nominated home services and to providing information 
+			  	contained in this application to the service providers. I agree that 
+			  	neither connectnow nor the Agent accepts liability for loss caused by 
+			  	delay in, or failure to connect/disconnect or provide the nominated 
+			  	services. The service will be activated according to the applicable 
+			  	regulations, service provider time frames and terms  &amp; conditions once
+			  	 the client has agreed to use the chosen service provider. I authorise
+			  	  the obtaining of a National Metering Identifier on my address to obtain 
+			  	  supply details. It is the responsibility of the Tenant to ensure that 
+			  	  the Main Electricity Switch is in the “Off Position” between 7am  &amp; 7pm on 
+			  	  the day connection is required and that there is easy access to the property. 
+			  	  While the connectnow service is FREE, standard service provider connection 
+			  	  fees and charges still apply. You pay NO extra charges as a result of using the 
+			  	  connectnow service. I acknowledge that the terms and conditions of the service
+			  	   provider bind me and that after hours connections may incur additional service 
+			  	   fees from service providers. I acknowledge that connectnow will be paid a fee 
+			  	   by the service provider and will be paying a fee to the Agent for the service
+			  	    being provided to me. Note: Connection of your utilities will only be initiated 
+			  	    once a representative has discussed your connection with you and obtained your 
+			  	    consent to the terms and conditions of the relevant utility service provider(s).
+			  </p>
+			    <fieldset>
+	           		<label for="application_declaration">
+	           		 I have read and understood above information.
+					<input type="checkbox" name="application_declaration" id="application_declaration" class='required'/>
+					</label>
+				</fieldset>
+				<input type="submit" value="Section 7: Application History" name="application_step5_submit"  id='application_step5_submit'/>
+			</form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+    
+    <div data-role="page" data-theme="c" id="tenant_application6" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application5" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>7. Application History</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form6"   method="post" data-ajax="false" action='javascript:applicationForm6Submit();' >
+               	<fieldset>
+	           		<label for="application_current_length">How long have you lived at your current address:</label>
+					<input type="text" name="application_current_length" id="application_current_length" value="" 
+					    placeholder = "How long have you lived at your current address?"  maxlength ='20' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_current_agent">Name of Landlord/Agent(if applicable)</label>
+					<input type="text" name="application_current_agent" id="application_current_agent" value="" 
+					    placeholder = "Name of Landlord/Agent(if applicable)"  maxlength ='50' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_current_phone">Phone No</label>
+					<input type="tel" name="application_current_phone" id="application_current_phone" value="" 
+					    class="digits" title="please enter a valid phone number" placeholder = "Phone No"  maxlength ='20' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_current_rent">Rent Paid per Month:</label>
+					<input type="number" name="application_current_rent" id="application_current_rent" value="" 
+					    placeholder = "Rent Paid per Month $"  class='number' title='Please enter a valid amount' maxlength ='16' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_current_leaving">Reason for leaving:</label>
+					<input type="text" name="application_current_leaving" id="application_current_leaving" value="" 
+					    placeholder = "Reason for leaving"   maxlength ='255' autocomplete="off"/>
+				</fieldset>
+				
+				 <fieldset data-role="controlgroup" data-type="horizontal">
+			        <legend>Was bond repaid in full:</legend>
+			        <input name="application_current_bond" id="application_current_bond_yes" type="radio" />
+			        <label for="application_current_bond_yes">Yes</label>
+			        <input name="application_current_bond" id="application_current_bond_no" type="radio" />
+			        <label for="application_current_bond_no">No</label>
+		    	 </fieldset>
+		    	 
+		    	 <fieldset>
+	           		<label for="application_current_bond_why">If not, please specify why:</label>
+					<input type="text" name="application_current_bond_why" id="application_current_bond_why" value="" 
+					    placeholder = "Why bond was not paid in full?"   maxlength ='255' autocomplete="off"/>
+				</fieldset>
+				
+				 <fieldset>
+	           		<label for="application_previous_address">What was your previous residential Address?</label>
+					<input type="text" name="application_previous_address" id="application_previous_address" value="" 
+					    placeholder = "previous residential Address"   maxlength ='255' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_previous_length">How long have you lived at your current address:</label>
+					<input type="text" name="application_previous_length" id="application_previous_length" value="" 
+					    placeholder = "How long have you lived at your current address?"  maxlength ='20' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_perious_agent">Name of Landlord/Agent(if applicable)</label>
+					<input type="text" name="application_perious_agent" id="application_perious_agent" value="" 
+					    placeholder = "Name of Landlord/Agent(if applicable)"  maxlength ='50' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_perious_phone">Phone No</label>
+					<input type="tel" name="application_perious_phone" id="application_perious_phone" value="" 
+					  class="digits" title="please enter a valid phone number"  placeholder = "Phone No"  maxlength ='20' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_perious_rent">Rent Paid per Month:</label>
+					<input type="number" name="application_perious_rent" id="application_perious_rent" value="" 
+					    placeholder = "Rent Paid per Month $"  class='number' title='Please enter a valid amount' maxlength ='16' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_perious_leaving">Reason for leaving:</label>
+					<input type="text" name="aapplication_perious_leaving" id="application_perious_leaving" value="" 
+					    placeholder = "Reason for leaving"   maxlength ='255' autocomplete="off"/>
+				</fieldset>
+				
+				 <fieldset data-role="controlgroup" data-type="horizontal">
+			        <legend>Was bond repaid in full:</legend>
+			        <input name="application_perious_bond" id="application_perious_bond_yes" type="radio" />
+			        <label for="application_perious_bond_yes">Yes</label>
+			        <input name="application_perious_bond" id="application_perious_bond_no" type="radio" />
+			        <label for="application_perious_bond_no">No</label>
+		    	 </fieldset>
+		    	 
+		    	 <fieldset>
+	           		<label for="application_perious_bond_why">If not, please specify why:</label>
+					<input type="text" name="application_perious_bond_why" id="application_perious_bond_why" value="" 
+					    placeholder = "Why bond was not paid in full?"   maxlength ='255' autocomplete="off"/>
+				</fieldset>
+				
+				<input type="submit" value="Step 8: Employment Details" name="application_step6_submit"  id='application_step6_submit'/>
+			</form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>  
+    
+        <div data-role="page" data-theme="c" id="tenant_application7" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application6" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>8. Employment Details</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form7"   method="post" data-ajax="false" action='javascript:applicationForm7Submit();' >
+           	   <fieldset>
+	           		<label for="application_emp_Occupation">Occupation:</label>
+					<input type="text" name="application_emp_Occupation" id="application_emp_Occupation" value="" 
+					    placeholder = "Occupation"  maxlength ='50' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_emp_Name">Employers Name:</label>
+					<input type="text" name="application_emp_Name" id="application_emp_Name" value="" 
+					    placeholder = "Employer Name"  maxlength ='50' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_Emp_address">Employment Address:</label>
+					<input type="text" name="application_Emp_address" id="application_emp_address" value="" 
+					    placeholder = "Employment Address"  maxlength ='100' autocomplete="off"/>
+				</fieldset>		
+				
+				<fieldset>
+	           		<label for="application_emp_phone">Employer Phone:</label>
+					<input type="tel" name="application_emp_phone" id="application_emp_phone" value="" 
+					  class="digits" title="please enter a valid phone number"  placeholder = "Employment Phone"  maxlength ='20' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_emp_length">Length at previous employment:</label>
+					<input type="text" name="application_emp_length" id="application_emp_length" value="" 
+					    placeholder = "Length at previous employment:"  maxlength ='10' autocomplete="off"/>
+				</fieldset>	
+	
+				<fieldset>
+	           		<label for="application_emp_income">Net Income:</label>
+					<input type="number" name="application_emp_income" id="application_emp_income" value="" 
+					   class="number" title="please enter a valid amount" placeholder = "Net Income:"  maxlength ='16' autocomplete="off"/>
+				</fieldset>		
+				
+				 <fieldset>
+					<select name="application_emp_term" id="application_emp_term">
+					    <option value="Per Week">Per Week</option>
+					    <option value="Per Month">Per Month</option>
+					</select>
+				</fieldset>			
+				<input type="submit" value="Sections 9: Other information" name="application_step7_submit"  id='application_step7_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+    
+    <div data-role="page" data-theme="c" id="tenant_application8" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application7" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>9. Other information</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form8"   method="post" data-ajax="false" action='javascript:applicationForm8Submit();' >
+           	   <fieldset>
+	           		<label for="application_car_reg">Car Registration:</label>
+					<input type="text" name="application_car_reg" id="application_car_reg" value="" 
+					    placeholder = "Car Registration"  maxlength ='50' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset data-role="controlgroup" data-type="horizontal">
+			        <legend>Do you have pets?</legend>
+			        <input name="application_pet" id="application_pet_yes" type="radio" />
+			        <label for="application_pet_yes">Yes</label>
+			        <input name="application_pet" id="application_pet_no" type="radio" />
+			        <label for="application_pet_no">No</label>
+		    	 </fieldset>
+		    	 
+		    	  <fieldset>
+	           		<label for="application_pet_type">If Yes,please specify:</label>
+					<input type="text" name="application_pet_type" id="application_pet_type" value="" 
+					    placeholder = "If Yes,please specify:"  maxlength ='255' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset data-role="controlgroup" data-type="horizontal">
+			        <legend>Do you Somke?</legend>
+			        <input name="application_smoke" id="application_smoke_yes" type="radio" />
+			        <label for="application_smoke_yes">Yes</label>
+			        <input name="application_smoke" id="application_smoke_no" type="radio" />
+			        <label for="application_smoke_no">No</label>
+		    	 </fieldset>
+					
+				<input type="submit" value="Sections 10: Other Occupier Details" name="application_step8_submit"  id='application_step8_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+    
+    <div data-role="page" data-theme="c" id="tenant_application9" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application8" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>9. Other Occupier Details</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form9"   method="post" data-ajax="false" action='javascript:applicationForm9Submit();' >
+           	   <fieldset>
+	           		<label for="application_occupier_name1">1.Occupier Name:</label>
+					<input type="text" name="application_occupier_name1" id="application_occupier_name1" value="" 
+					    placeholder = "1.Occupier Name:"  maxlength ='100' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_phone1">Contact Details:</label>
+					<input type="tel" name="application_occupier_phone1" id="application_occupier_phone1" value="" 
+					  title="please enter a valid phone number" class='digits' placeholder = "1.Contact Details:"  maxlength ='25' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_name2">2.Occupier Name:</label>
+					<input type="text" name="application_occupier_name2" id="application_occupier_name2" value="" 
+					    placeholder = "2.Occupier Name:"  maxlength ='100' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_phone2">Contact Details:</label>
+					<input type="tel" name="application_occupier_phone2" id="application_occupier_phone2" value="" 
+					  title="please enter a valid phone number" class='digits' placeholder = "2.Contact Details:"  maxlength ='25' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_name3">3.Occupier Name:</label>
+					<input type="text" name="application_occupier_name3" id="application_occupier_name3" value="" 
+					    placeholder = "3.Occupier Name:"  maxlength ='100' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_phone3">Contact Details:</label>
+					<input type="tel" name="application_occupier_phone3" id="application_occupier_phone3" value="" 
+					  title="please enter a valid phone number" class='digits' placeholder = "3.Contact Details:"  maxlength ='25' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_name4">4.Occupier Name:</label>
+					<input type="text" name="application_occupier_name4" id="application_occupier_name4" value="" 
+					    placeholder = "4.Occupier Name:"  maxlength ='100' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_phone4">Contact Name:</label>
+					<input type="tel" name="application_occupier_phone4" id="application_occupier_phone4" value="" 
+					  title="please enter a valid phone number" class='digits' placeholder = "4.Contact Details:"  maxlength ='25' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_name5">5.Occupier Name:</label>
+					<input type="text" name="application_occupier_name5" id="application_occupier_name5" value="" 
+					    placeholder = "5.Occupier Name:"  maxlength ='100' autocomplete="off"/>
+				</fieldset>	
+				
+				<fieldset>
+	           		<label for="application_occupier_phone5">Contact Details:</label>
+					<input type="tel" name="application_occupier_phone5" id="application_occupier_phone5" value="" 
+					  title="please enter a valid phone number" class='digits' placeholder = "5.Contact Details:"  maxlength ='25' autocomplete="off"/>
+				</fieldset>	
+					
+				<input type="submit" value="Sections 11: Personal Referees" name="application_step9_submit"  id='application_step9_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+    
+    <div data-role="page" data-theme="c" id="tenant_application10" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application9" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>11. Personal Referees:</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="application_form10"   method="post" data-ajax="false" action='javascript:applicationForm10Submit();' >
+                <fieldset>
+	           		<label for="application_reference1_name">1.Reference name:</label>
+					<input type="text" name="application_reference1_name" id="application_reference1_name" value="" 
+					  maxlength ='100' placeholder = "1.Reference name"  autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_reference1_occupation">Occupation:</label>
+					<input type="text" name="application_reference1_occupation" id="application_reference1_occupation" value="" 
+					 maxlength ='50' placeholder = "occupation"  autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_referees1_relationship">Relationship:</label>
+					<input type="text" name="application_referees1_relationship" id="application_referees1_relationship"
+					 maxlength ='50'  value="" placeholder = "Relationship" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_referees1_phone">Phone No:</label>
+					<input type="text" name="application_referees1_phone" id="application_referees1_phone" value="" 
+					placeholder = "Phone No" maxlength ='25' title="please enter a valid phone number" class ='digits' autocomplete="off"/>
+				</fieldset>
+				
+				    <fieldset>
+	           		<label for="application_reference2_name">2.Reference name:</label>
+					<input type="text" name="application_reference2_name" id="application_reference2_name" value="" 
+					  maxlength ='50' placeholder = "2.Reference name"  autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_reference2_occupation">Occupation:</label>
+					<input type="text" name="application_reference2_occupation" id="application_reference2_occupation" value="" 
+					 maxlength ='50' placeholder = "occupation"  autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_referees2_relationship">Relationship:</label>
+					<input type="text" name="aapplication_referees2_relationship" id="aapplication_referees2_relationship"
+					 maxlength ='50'  value="" placeholder = "Relationship" autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+	           		<label for="application_referees2_phone">Phone No:</label>
+					<input type="text" name="application_referees2_phone" id="application_referees2_phone" value="" 
+					placeholder = "Phone No" maxlength ='25' title="please enter a valid phone number" class ='digits' autocomplete="off"/>
+				</fieldset>
+						
+				<input type="submit" value="Section 12: Supporting Document" name="application_step10_submit"  id='application_step10_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div> 
+    
+        <div data-role="page" data-theme="c" id="tenant_application11" >
+            
+        <div data-role="header">
+   			<a href="#tenant_application10" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>12. Supporting Document:</h1>
+		</div>
+		
+        <div data-role="content">
+        	<p>Documents Tenant to Provide Check List</p>
+				<ol type="1">
+					<li>Bank Statements</li>
+					<li>Password/driver's license including all occupants</li>
+					<li>Proof of valid visit</li>
+					<li>Rental Leger From past property</li>
+					<li>Employment details/pay slip</li>
+					<li>Other supporting financial statements</li>
+					<li>School Certification(if any)</li>
+				</ol>
+           <form id="application_form11"   method="post" data-ajax="false" action='javascript:prepareFileUploads();' >
+           		<fieldset>
+	           		<label for="supporting_document">Supporting Document:</label>
+					<input type="file" name="supporting_document" class='required'  id="supporting_document" multiple="multiple"/>
+				</fieldset>
+			
+				<input type="submit" value="Submit" name="application_step11_submit"  id='application_step11_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+   
+   					<!-- contact_us page  -->
+   <div data-role="page" data-theme="c" id="contact_us" >
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Contact Us</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="contact_form"   method="post" data-ajax="false" action='javascript:contactFormSubmit();' >
+                <fieldset>
+	           		<label for="contact_name">Name:</label>
+					<input type="text" name="contact_name" id="contact_name" value="" placeholder = "Your Name:" class ='required' autocomplete="off" maxLength='50'/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="contact_email">Your Email:</label>
+					<input type="email" name="contact_email" id="contact_email" value="" placeholder = "Your Email:" class ='required email' maxLength='100' title='Please enter a valid email address' autocomplete="off" />
+				</fieldset>
+				
+				<fieldset>
+					<label for="contact_subject">Subject:</label>
+					<input type="text" name="contact_subject" id="contact_subject" value="" placeholder = "Subject:" maxLength='50' class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="contact_detail">Message:</label>
+					<textarea rows = '8' name='contact_detail' id='contact_detail' placeholder='Message:' class ='required' autocomplete="off" maxLength='10000'></textarea>
+				</fieldset>
+				
+				<input type="submit" value="Send" name="contact_submit" title= 'contact_submit' id='contact_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+    
+    			<!-- notice to vacate page  -->
+    <div data-role="page" data-theme="c" id="notice_to_vacate" >
+            
+        <div data-role="header">
+   			<a href="#serviceshome" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Notice to Vacate</h1>
+		</div>
+		
+        <div data-role="content">
+           <form id="ntv_form"   method="post" data-ajax="false" action='javascript:ntcFromSubmit();' >
+                <fieldset>
+	           		<label for="ntv_property">Property Address:</label>
+					<input type="text" name="ntv_property" id="ntv_property" maxLength= '50' value="" placeholder = "Property Address:" class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				 <fieldset>
+	           		<label for="ntv_name">Name:</label>
+					<input type="text" name="ntv_name" id="ntv_name" maxLength= '50' value="" placeholder = "Name:" class ='required' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="ntv_best_contact">Best contact number:</label>
+					<input type="tel" name="ntv_best_contact" maxLength= '50' id="ntv_best_contact" value="" placeholder = "Best Contact Number:" class ='required digits' title='Please enter a valid phone number' autocomplete="off" />
+				</fieldset>
+				
+				<fieldset>
+					<label for="ntv_email">Email</label>
+					<input type="email" name="ntv_email" maxLength='50' id="ntv_email" value="" placeholder = "Email:"  class ='required email' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="ntv_date">Vacating Date:</label>
+					<input type="date" name="ntv_date" id="ntv_date" value="" placeholder = "Vacate Date:"  class='required' data-role="datebox" data-options='{"mode": "flipbox"}' autocomplete="off"/>
+				</fieldset>
+				
+				<fieldset>
+					<label for="ntv_detail">Message:</label>
+					<textarea rows = '8' name='ntv_detail' id='ntv_detail' placeholder='Message:' maxLenght ='1000' autocomplete="off"></textarea>
+				</fieldset>
+				
+				<input type="submit" value="Send" name="ntv_submit"  id='ntv_submit'/>
+           </form>
+        </div>
+        <div data-role="footer">
+		</div> 
+    </div>
+    
+     				<!-- about us page  -->
+   <div data-role="page" data-theme="c" id="aboutus">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>About Us</h1>
+		</div>
+		
+        <div data-role="content">
+        	<div id='au_content'>
+	            <h2>EXCELSIOR REALTY PTY LTD</h2>
+	            <img src='{!URLFOR($Resource.exr_logo)}' />
+	            <div class='comm-details'>  
+		            <p>         
+			            We offers a unique insight 
+			            <br />
+			            into the property market,
+			            <br />
+			            through 20 years experience
+			            <br />
+			            of marketing properties for
+			            <br />
+			            sale and to rent to Asian clients
+		            </p>
+	            </div>
+            </div>
+        </div>
+        
+        <div id='service_list'>
+	            <ul data-role="listview" data-divider-theme="d">
+	            <li data-role="list-divider">ASIAN MARKET SPECIALISTS</li>
+				    <li>RESIDENTIAL &amp; COMMERCIAL</li>
+				    <li>BUYING OR SELLING </li>
+				    <li>LEASING OR MANAGING</li>
+		 		</ul>
+		 </div>
+        <div id='au_contact_details'>
+        	<p >
+        	<br />
+        	<center>Shop 18, Sussex Center 401 Sussex ST. Sydney 2000 </center>
+        	<center>Tel:(02)09281 6777 Fax:(02)9281 2283</center>
+        	</p>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   			<!-- properties home page  -->
+   <div data-role="page" data-theme="c" id="propertieshome">
+            
+        <div data-role="header">
+   				<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Properties Home</h1>
+		</div>
+		
+        <div data-role="content">
+            <a data-role='button' href='#lease_property_home' id='ph_lease_btn' data-theme="c" data-icon="arrow-r" data-iconpos="right" >For Lease</a>
+            <a href="#sales_property_home" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >For Sales</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+   
+
+    <div data-role="page" data-theme="c" id="lease_property_home">
+            
+        <div data-role="header">
+   			<a href="#propertieshome" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Excelsior Realty Leasing List</h1>
+		</div>
+		
+        <div data-role="content" data-inset="true">
+           <ul id='leasing_properties_list' data-role="listview">
+           </ul>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   <div data-role="page" data-theme="c" id="lease_property_details">
+            
+        <div data-role="header">
+   			<a href="#lease_property_home" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1 id='lpd_title'></h1>
+		</div>
+        <div data-role="content" data-inset="true">
+        	<input type='hidden' value= 'firstLoad' id='lpd_id'></input>
+	        <div id='lpd_property_detail'>
+	        	<h2 id='lpd_full_address'></h2>
+		    	<img id='lpd_pic'/>
+		    	<div class="comm-details">
+		    		<p>
+			    		Bedroom:<label id='lpd_bedroom'></label>, 
+			    		Bathroom:<label id='lpd_bathroom'></label>, 
+			    		Carspace:<label id='lpd_carspace'></label>
+			    		<br />
+			    		Weekly Rent:$<label id='lpd_rentals'></label>.00
+			    		<br />
+			    		<label id='lpd_avaliable'></label>
+			    		<br />
+			    		<label id='lpd_time'></label>
+			    	</p>
+			    </div>
+			 </div>
+	    	  <div id='lpd_btns'>
+	    		<a href="tel:0292816777" data-role="button">Call Us(02)9281 6777</a>
+				<button id='lpd_booking_btn' value='Booking an Inspection' />
+        	  </div>
+        	  
+        	   <div id="lease_map" style="width:100%;height:300px"></div>
+       	 </div>
+        	
+        <div data-role="footer">
+		</div>
+		
+   </div>
+       <div data-role="page" data-theme="c" id="sales_property_home">
+            
+        <div data-role="header">
+   			<a href="#propertieshome" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Excelsior Realty Sales List</h1>
+		</div>
+		
+        <div data-role="content" data-inset="true">
+           <ul id='sales_properties_list' data-role="listview">
+           </ul>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   
+      <div data-role="page" data-theme="c" id="sales_property_details">
+            
+        <div data-role="header">
+   			<a href="#sales_property_home" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1 id='spd_title'></h1>
+		</div>
+        <div data-role="content" data-inset="true">
+        	<input type='hidden' value= 'firstLoad' id='spd_id'></input>
+	        <div id='spd_property_detail'>
+	        	<h2 id='spd_full_address'></h2>
+		    	<img id='spd_pic'/>
+		    	<div class="comm-details">
+		    		<p>
+		    			Land Area:<label id='spd_area'></label> sqm
+		    			<br />
+			    		Bedroom:<label id='spd_bedroom'></label>, 
+			    		Bathroom:<label id='spd_bathroom'></label>, 
+			    		Carspace:<label id='spd_carspace'></label>
+			    		<br />
+			    		Sale Price:$<label id='spd_price'></label>.00
+			    		<br />
+			    		<label id='spd_time'></label>
+			    	</p>
+			    </div>
+			 </div>
+			 <br />
+	    	  <div id='spd_btns'>
+	    		<a href="tel:0292816777" data-role="button">Call Us(02)9281 6777</a>
+				<button id='spd_booking_btn' value='Booking an Inspection' />
+        	  </div>
+        	  
+        	   <div id="sale_map" style="width:100%;height:300px"></div>
+       	 </div>
+        	
+        <div data-role="footer">
+		</div>
+   </div>
+   
+
+   <div data-role="page" data-theme="c" id="booking">
+            
+        <div data-role="header">
+   			<a href="#propertieshome" data-icon="arrow-l" data-theme="a">Back</a>
+    		<h1>Booking an Inspection</h1>
+		</div>
+		
+        <div data-role="content" data-inset="true">
+           <div>
+	          	<form id="bk_form"  method="post" data-ajax="false" action='javascript:bookingFormSubmit();' >
+	          	   <input type='hidden' id='bk_id' />
+	                <fieldset>
+		           		<label for="bk_name">Name:</label>
+						<input type="text" name="bk_name" id="bk_name" value="" 
+						  maxlength ='50' placeholder = "Name" class ='required' autocomplete="off"/>
+					</fieldset>
+					
+					<fieldset>
+		           		<label for="bk_email">Email:</label>
+						<input type="email" name="bk_email" id="bk_email" value="" 
+						  maxlength ='50' placeholder = "Email" class ='required email' autocomplete="off"/>
+					</fieldset>
+					
+					<fieldset>
+						<label for="bk_mobile">Mobile Phone:</label>
+						<input type="tel" name="abk_mobile" id="bk_mobile"  placeholder = "Mobile Phone" 
+						 maxlength ='25' class='required digits' title='Please enter a valid phone number' autocomplete="off"/>
+					</fieldset>	
+					
+					<fieldset>
+					    <label for="bk_preference_time">Preference Time:</label>
+					    <select name="bk_preference_time" id="bk_preference_time">
+					        <option value="Monday">Monday</option>
+					        <option value="Tuesday">Tuesday</option>
+					        <option value="Wednesday">Wednesday</option>
+					        <option value="Thursday">Thursday</option>
+					        <option value="Friday">Friday</option>
+					        <option value="Saturday">Saturday</option>
+					    </select>
+					</fieldset>
+					
+					<fieldset>
+						<label for="bk_detail">Message:</label>
+						<textarea rows = '8' name='bk_detail' id='bk_detail' placeholder='Message:' maxLength='10000' autocomplete="off"></textarea>
+					</fieldset>
+					
+					<input type="submit" value="Submit" name="bk_submit"  id='bk_submit'/>
+	           </form>
+           </div>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+			  
+</body>
+</html>
+
+</apex:page>

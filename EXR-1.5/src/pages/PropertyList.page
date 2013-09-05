@@ -1,0 +1,243 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false" cache="true" controller="VF_PropertiesListingController">
+<html> 
+<head> 
+<title>Excelsior Realty</title>
+ 
+<apex:stylesheet value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery.mobile-1.3.0.min.css')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery-1.9.1.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery.mobile-1.3.0.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'ForceTk.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.Jquery_Validation)}"/>
+<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwS3C9al857ythb0ofyTmbepu4J0t5B14&sensor=false" />
+<apex:includeScript value="{!URLFOR($Resource.exr_tenant_application)}"/>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<style>
+label.error { 
+	float: left; 
+	color: red; 
+	padding-top: .5em; 
+	vertical-align: top; 
+	font-weight:bold
+}
+
+h2 {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+#lpd_property_detail,  #lpd_property_detail{
+    display: block;
+    overflow: hidden;
+}
+
+#lpd_property_detail img,  #spd_property_detail img{
+    float: left;
+    margin: 0 7px 5px 0;
+    height: 77px;
+    width: 116px;
+}
+
+.comm-details {
+    margin: 0 0 0 123px;
+}
+.comm-details h2 {
+    font-size: 16px;
+    margin: 0;
+}
+.comm-details p {
+    font-size: 12px;
+    margin: 0;
+}
+
+</style>
+</head>
+<body>
+
+ 				<!-- properties home page  -->
+   <div data-role="page" data-theme="c" id="propertieshome">
+            
+        <div data-role="header">
+   			<a href="apex/mobilhome" data-icon="home" data-theme="a">Home</a>
+    		<h1>Properties Home</h1>
+		</div>
+		
+        <div data-role="content">
+            <a data-role='button' href='#lease_property_home' id='ph_lease_btn' data-theme="c" data-icon="arrow-r" data-iconpos="right" >For Lease</a>
+            <a href="#sales_property_home" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >For Sales</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+   
+
+    <div data-role="page" data-theme="c" id="lease_property_home">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Excelsior Realty Leasing List</h1>
+		</div>
+		
+        <div data-role="content" data-inset="true">
+           <ul id='leasing_properties_list' data-role="listview">
+           </ul>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   <div data-role="page" data-theme="c" id="lease_property_details">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1 id='lpd_title'></h1>
+		</div>
+        <div data-role="content" data-inset="true">
+        	<input type='hidden' value= 'firstLoad' id='lpd_id'></input>
+	        <div id='lpd_property_detail'>
+	        	<h2 id='lpd_full_address'></h2>
+		    	<img id='lpd_pic'/>
+		    	<div class="comm-details">
+		    		<p>
+		    			<label id='lpd_type'></label>
+		    			<br />
+		    			<label id='lpd_furniture'></label>
+		    			<br />
+			    		Bedroom:<label id='lpd_bedroom'></label>, 
+			    		Bathroom:<label id='lpd_bathroom'></label>, 
+			    		Carspace:<label id='lpd_carspace'></label>
+			    		<br />
+			    		Weekly Rent:$<label id='lpd_rentals'></label>.00
+			    		<br />
+			    		<label id='lpd_avaliable'></label>
+			    	</p>
+			    </div>
+			 </div>
+	    	  <div id='lpd_btns'>
+	    		<a href="tel:0292816777" data-role="button">Call Us(02)9281 6777</a>
+				<button id='lpd_booking_btn' value='Booking an Inspection' />
+        	  </div>
+        	  
+        	   <div id="lease_map" style="width:100%;height:300px"></div>
+       	 </div>
+        	
+        <div data-role="footer">
+		</div>
+   </div>
+       <div data-role="page" data-theme="c" id="sales_property_home">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Excelsior Realty Sales List</h1>
+		</div>
+		
+        <div data-role="content" data-inset="true">
+           <ul id='sales_properties_list' data-role="listview">
+           </ul>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   
+      <div data-role="page" data-theme="c" id="sales_property_details">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1 id='spd_title'></h1>
+		</div>
+        <div data-role="content" data-inset="true">
+        	<input type='hidden' value= 'firstLoad' id='spd_id'></input>
+	        <div id='spd_property_detail'>
+	        	<h2 id='spd_full_address'></h2>
+		    	<img id='spd_pic'/>
+		    	<div class="comm-details">
+		    		<p>
+		    			<label id='spd_type'></label>
+		    			<br />
+		    			Land Area:<label id='spd_area'></label> sqm
+		    			<br />
+			    		Bedroom:<label id='spd_bedroom'></label>, 
+			    		Bathroom:<label id='spd_bathroom'></label>, 
+			    		Carspace:<label id='spd_carspace'></label>
+			    		<br />
+			    		Sale Price:$<label id='spd_price'></label>.00
+			    	</p>
+			    </div>
+			 </div>
+			 <br />
+	    	  <div id='spd_btns'>
+	    		<a href="tel:0292816777" data-role="button">Call Us(02)9281 6777</a>
+				<button id='spd_booking_btn' value='Booking an Inspection' />
+        	  </div>
+        	  
+        	   <div id="sale_map" style="width:100%;height:300px"></div>
+       	 </div>
+        	
+        <div data-role="footer">
+		</div>
+   </div>
+   
+
+   <div data-role="page" data-theme="c" id="booking">
+            
+        <div data-role="header">
+   			<a href="#" data-icon="home" data-theme="a">Home</a>
+    		<h1>Booking an Inspection</h1>
+		</div>
+		
+        <div data-role="content" data-inset="true">
+           <div>
+	          	<form id="bk_form"  method="post" data-ajax="false" action='javascript:bookingFormSubmit();' >
+	          	   <input type='hidden' id='bk_id' />
+	                <fieldset>
+		           		<label for="bk_name">Name:</label>
+						<input type="text" name="bk_name" id="bk_name" value="" 
+						  maxlength ='255' placeholder = "Name" class ='required' autocomplete="off"/>
+					</fieldset>
+					
+					<fieldset>
+		           		<label for="bk_email">Email:</label>
+						<input type="email" name="bk_email" id="bk_email" value="" 
+						  maxlength ='255' placeholder = "Email" class ='required email' autocomplete="off"/>
+					</fieldset>
+					
+					<fieldset>
+						<label for="bk_mobile">Mobile Phone:</label>
+						<input type="tel" name="abk_mobile" id="bk_mobile"  placeholder = "Mobile Phone" 
+						 maxlength ='25' class='required digits' title='Please enter a valid phone number' autocomplete="off"/>
+					</fieldset>	
+					
+					<fieldset>
+					    <label for="bk_preference_time">Preference Time:</label>
+					    <select name="bk_preference_time" id="bk_preference_time">
+					        <option value="Monday">Monday</option>
+					        <option value="Tuesday">Tuesday</option>
+					        <option value="Wednesday">Wednesday</option>
+					        <option value="Thursday">Thursday</option>
+					        <option value="Friday">Friday</option>
+					        <option value="Saturday">Saturday</option>
+					    </select>
+					</fieldset>
+					
+					<fieldset>
+						<label for="bk_detail">Message:</label>
+						<textarea rows = '8' name='bk_detail' id='bk_detail' placeholder='Message:'  autocomplete="off"></textarea>
+					</fieldset>
+					
+					<input type="submit" value="Submit" name="bk_submit"  id='bk_submit'/>
+	           </form>
+           </div>
+        </div>
+        <div data-role="footer">
+		</div>
+   </div>
+   
+</body>
+</html>
+
+</apex:page>

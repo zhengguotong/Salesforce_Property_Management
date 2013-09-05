@@ -1,0 +1,229 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false" cache="true" controller="VF_MobileHomeController">
+<html>
+<head>
+<title>Excelsior Realty</title>
+
+<apex:stylesheet value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery.mobile-1.3.0.min.css')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery-1.9.1.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'jquery.mobile-1.3.0.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.MobileSample_Resources_jQueryMobile, 'ForceTk.js')}"/>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<script type="text/javascript">
+		  var $j = jQuery.noConflict(); 
+          
+           $j(document).ready(function() {
+            	regBtnClickHandlers();
+            });
+            
+            function regBtnClickHandlers()
+            {
+            	 $j('#tenant_login_submit').click(function(e) {
+                    //alert('Tenant Login!!');
+                });
+        
+            }
+	</script>    
+</head>
+
+<body>
+    			<!-- Home page  -->
+    <div data-role="page" data-theme="c" id="mainpage">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Excelsior Realty</h1>
+		</div>
+		
+        <div data-role="content">
+            <a href="#propertieshome" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Properties</a>
+            <a href="#serviceshome" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Services</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Contact Us</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >About Us</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+   
+   				<!-- service home page  -->
+   <div data-role="page" data-theme="c" id="serviceshome">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Services Home</h1>
+		</div>
+		
+        <div data-role="content">
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Tenant Login</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Owner Login</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Creditor Login</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Others</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+   				<!-- properties home page  -->
+   <div data-role="page" data-theme="c" id="propertieshome">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Properties Home</h1>
+		</div>
+		
+        <div data-role="content">
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >For Lease</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >For Sales</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Others</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+   		
+  		  				<!-- service home page  -->
+   <div data-role="page" data-theme="c" id="serviceshome">
+            
+        <div data-role="header">
+   			<a href="#mainpage" data-icon="home" data-theme="a">Home</a>
+    		<h1>Services Home</h1>
+		</div>
+		
+        <div data-role="content">
+            <a href="#tennatlogin" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Tenant Login</a>
+            <a href="#ownerlogin" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Owner Login</a>
+            <a href="#creditorlogin" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Creditor Login</a>
+            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Others</a>
+        </div>
+        
+        <div data-role="footer">
+		</div>
+   </div>
+	   				<!-- Tenant login page  -->
+	   <div data-role="page" data-theme="c" id="tennatlogin">
+	            
+	        <div data-role="header">
+	   			<a href="#serviceshome" data-icon="arrow-l" data-theme="a">Back</a>
+	    		<h1>Tenant Login</h1>
+			</div>
+			
+	        <div data-role="content">
+	            <form class="login_form"  method="post" data-ajax="false">					
+						<label for="login" class="ui-hidden-accessible">Email Address</label>
+						<input class="login_email" type="email" name="tenant_login" id="tenant_login" value="" placeholder="Email Address" />
+
+						<label for="password" class="ui-hidden-accessible">Password</label>
+						<input class="login_password" type="password" name="tenant_password" id="tenant_password" autocomplete="off" placeholder="Password" />
+
+						<fieldset data-role="controlgroup" class="mvs">
+							<input type="checkbox" id="tenant_remember_login" name="tenant_remember_login" />
+							<label for="tenant_remember_login">Keep me logged in</label>
+						</fieldset>
+
+						<div class="cta_button_wrapper">
+							<input class="button login_submit" type="submit" value="Log In" name="tenant_login_submit" id="tenant_login_submit" />
+						</div>
+						<div class="ui-btn-text mtl">
+							<a href="#" data-ajax="false">Forgot password?</a>
+						</div>							
+					</form>
+	        </div>
+	        
+	        <div data-role="footer">
+			</div>
+	   </div>
+	   
+	   				<!-- Owner login page  -->
+	   <div data-role="page" data-theme="c" id="ownerlogin">
+	            
+	        <div data-role="header">
+	   			<a href="#serviceshome" data-icon="arrow-l" data-theme="a">Back</a>
+	    		<h1>Owner Login</h1>
+			</div>
+			
+	        <div data-role="content">
+	            <form class="login_form" action="#" method="post" data-ajax="false">					
+						<label for="login" class="ui-hidden-accessible">Email Address</label>
+						<input class="login_email" type="email" name="login" id="login" value="" placeholder="Email Address" />
+
+						<label for="password" class="ui-hidden-accessible">Password</label>
+						<input class="login_password" type="password" name="password" id="password" autocomplete="off" placeholder="Password" />
+
+						<fieldset data-role="controlgroup" class="mvs">
+							<input type="checkbox" id="remember_login" name="remember_login" />
+							<label for="remember_login">Keep me logged in</label>
+						</fieldset>
+
+						<div class="cta_button_wrapper">
+							<input class="button login_submit" type="submit" value="Log In" name="login_submit" />
+						</div>
+						<div class="ui-btn-text mtl">
+							<a href="#" data-ajax="false">Forgot password?</a>
+						</div>
+						<input type="hidden" name="__login" value="Login" />		
+												<input type="hidden" name="request_token" style="display: none;" value="60d87184a0054a59680b89af9b4f6d69110f8677af4249dfc16c9197d865d4d8" />
+					</form>
+	        </div>
+	        
+	        <div data-role="footer">
+			</div>
+	   </div>
+	   
+	   				<!-- Creditor login page  -->
+	   <div data-role="page" data-theme="c" id="creditorlogin">
+	            
+	        <div data-role="header">
+	   			<a href="#serviceshome" data-icon="arrow-l" data-theme="a">Back</a>
+	    		<h1>Creditor Login</h1>
+			</div>
+			
+	        <div data-role="content">
+	            <form class="login_form" action="" method="post" data-ajax="false">					
+						<label for="login" class="ui-hidden-accessible">Email Address</label>
+						<input class="login_email" type="email" name="creditor_login" id="creditor_login" value="" placeholder="Email Address" />
+
+						<label for="creditor_password" class="ui-hidden-accessible">Password</label>
+						<input class="login_password" type="password" name="creditor_password" id="creditor_password" autocomplete="off" placeholder="Password" />
+
+						<fieldset data-role="controlgroup" class="mvs">
+							<input type="checkbox" id="creditor_remember_login" name="creditor_remember_login" />
+							<label for="creditor_remember_login">Keep me logged in</label>
+						</fieldset>
+
+						<div class="cta_button_wrapper">
+							<input class="button login_submit" type="submit" value="Log In" name="creditor_login_submit" id="creditor_login_submit" />
+						</div>
+						<div class="ui-btn-text mtl">
+							<a href="#" data-ajax="false">Forgot password?</a>
+						</div>							
+					</form>
+	        </div>
+	        
+	        <div data-role="footer">
+			</div>
+	   </div>
+	          		<!-- Tenant home page  -->
+			   <div data-role="page" data-theme="c" id="tenanthome">
+			            
+			        <div data-role="header">
+			   				<a href="#tenantlogin" data-icon="arrow-l" data-theme="a">Back</a>
+			    		<h1>Tenant Home</h1>
+					</div>
+					
+			        <div data-role="content">
+			            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Tenant Details</a>
+			            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Repair Request</a>
+			            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Notice to Vacate</a>
+			            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Bond Claim</a>
+			            <a href="#" data-role="button" data-theme="c" data-icon="arrow-r" data-iconpos="right" >Others</a>
+			        </div>
+			        
+			        <div data-role="footer">
+					</div>
+			   </div>
+</body>
+</html>
+
+</apex:page>
